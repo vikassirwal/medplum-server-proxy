@@ -15,6 +15,16 @@ export interface Hl7ToFhirResponseDto {
   method: string;
   contentType?: string;
   bodySize: number;
+  hl7MessageReceived?: boolean; // Flag to indicate if HL7 message was received
+  conversionResults?: Array<{
+    resourceType: string;
+    success: boolean;
+    data?: any;
+    error?: any;
+    status: number;
+    existed?: boolean;
+    totalFound?: number;
+  }>;
   timestamp: string;
   fhirBundle?: any;
 }

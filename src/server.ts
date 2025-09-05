@@ -6,8 +6,8 @@ dotenv.config();
 
 // Import controllers
 import { initiateAuthorization } from './controllers/authController';
-import { getFhirResource } from './controllers/fhirController';
-import { handleCallback } from './controllers/callbackController';
+import { getFhirResource, handleRestrictedFhirMethod } from './controllers/fhirController';
+import { getToken } from './controllers/exchangeCodeForToken';
 import { convertHl7ToFhir } from './controllers/conversionController';
 
 const app: Express = express();
@@ -20,11 +20,17 @@ app.use(express.urlencoded({ extended: true }));
 // Authorization initiation endpoint
 app.get('/auth/authorize', initiateAuthorization);
 
-// FHIR resources endpoint
-app.get('/fhir/:resourceType/:id?', getFhirResource);
+// FHIR resources endpoint (GET only - read access)
+app.get('/fhir/:version/:resourceType', getFhirResource);
 
-// Callback endpoint for other servers
-app.get('/callback', handleCallback);
+// Restrict write operations on FHIR resources
+app.post('/fhir/:version/:resourceType', handleRestrictedFhirMethod);
+app.put('/fhir/:version/:resourceType/:id', handleRestrictedFhirMethod);
+app.patch('/fhir/:version/:resourceType/:id', handleRestrictedFhirMethod);
+app.delete('/fhir/:version/:resourceType/:id', handleRestrictedFhirMethod);
+
+// OAuth callback endpoint for authorization flows
+app.post('/auth/getToken', getToken);
 
 // HL7 v2 to FHIR conversion endpoint
 app.post('/convert/hl7-to-fhir', convertHl7ToFhir);

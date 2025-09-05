@@ -17,40 +17,24 @@ const initiateAuthorization = async (req, res) => {
         authorizationUrl.searchParams.append('scope', 'openid');
         const axiosResponse = await axios_1.default.get(authorizationUrl.toString(), {
             validateStatus: (status) => status < 500,
-            maxRedirects: 0,
         });
-        console.log('axiosResponse', axiosResponse.headers);
-        const redirectUrl = axiosResponse.headers.location || null;
-        console.log('Captured redirect URL:', redirectUrl);
-        console.log('redirectUrl', redirectUrl);
+        const redirectUrl = axiosResponse.request.res?.responseUrl || null;
         const responseData = {
             status: axiosResponse.status,
             statusText: axiosResponse.statusText,
             redirectUrl,
         };
-        console.log('OAuth2 Response:', responseData);
         res.status(200).json(responseData);
     }
     catch (error) {
-        console.error('❌ OAuth2 authorization request failed:', error.message);
         const errorResponse = {
             error: 'OAuth2 Request Failed',
             message: `Failed to connect to OAuth2 server: ${error.message}`,
             endpoint: '/auth/authorize',
             method: 'GET',
-            config: {
-                clientId: MEDPLUM_CLIENT_ID,
-                redirectUri: MEDPLUM_REDIRECT_URI
-            },
             timestamp: new Date().toISOString()
         };
-        const errorWithDetails = {
-            ...errorResponse,
-            errorDetails: {
-                code: error.code,
-                requestUrl: `${OAUTH2_SERVER_URL}/oauth2/authorize`
-            }
-        };
+        const errorWithDetails = errorResponse;
         res.status(502).json(errorWithDetails);
     }
 };

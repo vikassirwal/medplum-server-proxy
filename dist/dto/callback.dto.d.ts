@@ -10,7 +10,8 @@ export interface CallbackResponseDto {
     message: string;
     endpoint: string;
     method: string;
-    queryParams: Record<string, any>;
+    queryParams?: Record<string, any>;
+    requestBody?: Record<string, any>;
     timestamp: string;
 }
 //# sourceMappingURL=callback.dto.d.ts.map

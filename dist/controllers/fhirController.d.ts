@@ -1,4 +1,5 @@
 import { ControllerFunction } from '../types/common.types';
 declare const getFhirResource: ControllerFunction;
-export { getFhirResource };
+declare const handleRestrictedFhirMethod: ControllerFunction;
+export { getFhirResource, handleRestrictedFhirMethod };
 //# sourceMappingURL=fhirController.d.ts.map

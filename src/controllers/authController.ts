@@ -5,7 +5,7 @@
 
 import { Request, Response } from 'express';
 import axios, { AxiosResponse } from 'axios';
-import { AuthorizeResponseDto, AuthConfigDto } from '../dto/auth.dto';
+import { AuthorizeResponseDto } from '../dto/auth.dto';
 import { ControllerFunction } from '../types/common.types';
 
 // Get environment variables

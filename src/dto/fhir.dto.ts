@@ -10,10 +10,10 @@ export interface FhirResourceRequestDto {
 export interface FhirResourceResponseDto {
   error?: string;
   message: string;
-  endpoint: string;
-  method: string;
-  resourceType: string;
-  resourceId: string;
+  endpoint?: string;
+  method?: string;
+  resourceType?: string;
+  resourceId?: string;
   timestamp: string;
 }
 
