@@ -1,0 +1,1 @@
+{"version":3,"file":"fhirController.d.ts","sourceRoot":"","sources":["../../src/controllers/fhirController.ts"],"names":[],"mappings":"AAOA,OAAO,EAAE,kBAAkB,EAAE,MAAM,uBAAuB,CAAC;AAO3D,QAAA,MAAM,eAAe,EAAE,kBActB,CAAC;AAEF,OAAO,EACL,eAAe,EAChB,CAAC"}
