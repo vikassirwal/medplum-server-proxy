@@ -11,11 +11,7 @@ export interface CallbackRequestDto {
 }
 
 export interface CallbackResponseDto {
-  error?: string;
-  message: string;
-  endpoint: string;
-  method: string;
-  queryParams?: Record<string, any>;
-  requestBody?: Record<string, any>;
+  success: boolean;
+  error: string;
   timestamp: string;
 }

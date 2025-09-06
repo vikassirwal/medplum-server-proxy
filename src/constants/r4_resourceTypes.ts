@@ -151,5 +151,5 @@ export const FHIR_R4_RESOURCE_TYPES = [
   'TestScript',
   'ValueSet',
   'VerificationResult',
-  'VisionPrescription'
+  'VisionPrescription',
 ] as const;

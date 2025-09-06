@@ -8,15 +8,10 @@ export interface AuthorizeRequestDto {
     code_challenge_method?: string;
 }
 export interface AuthorizeResponseDto {
-    error?: string;
+    success: boolean;
     message: string;
-    endpoint: string;
-    method: string;
-    config?: {
-        clientId: string;
-        redirectUri: string;
-    };
     timestamp: string;
+    redirectUrl?: string;
 }
 export interface AuthConfigDto {
     clientId: string;

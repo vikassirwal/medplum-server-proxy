@@ -1,10 +1,8 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 
-// Load environment variables
 dotenv.config();
 
-// Import controllers
 import { initiateAuthorization } from './controllers/authController';
 import { getFhirResource, handleRestrictedFhirMethod } from './controllers/fhirController';
 import { getToken } from './controllers/exchangeCodeForToken';
@@ -13,35 +11,36 @@ import { convertHl7ToFhir } from './controllers/conversionController';
 const app: Express = express();
 const PORT: number = parseInt(process.env.PORT || '3010', 10);
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Authorization initiation endpoint
+// Kicks off the authorization process
 app.get('/auth/authorize', initiateAuthorization);
 
-// FHIR resources endpoint (GET only - read access)
+// Get FHIR resources
 app.get('/fhir/:version/:resourceType', getFhirResource);
 
-// Restrict write operations on FHIR resources
+// Get FHIR resources by id
+app.get('/fhir/:version/:resourceType/:id', getFhirResource);
+
+// Restrict write and delete operations on FHIR resources
 app.post('/fhir/:version/:resourceType', handleRestrictedFhirMethod);
 app.put('/fhir/:version/:resourceType/:id', handleRestrictedFhirMethod);
 app.patch('/fhir/:version/:resourceType/:id', handleRestrictedFhirMethod);
 app.delete('/fhir/:version/:resourceType/:id', handleRestrictedFhirMethod);
 
-// OAuth callback endpoint for authorization flows
+// exchange code for token
 app.post('/auth/getToken', getToken);
 
-// HL7 v2 to FHIR conversion endpoint
+// Convert HL7 v2 to FHIR and store in Medplum
 app.post('/convert/hl7-to-fhir', convertHl7ToFhir);
 
-// Start server
+
 app.listen(PORT, (): void => {
-  console.log(`🚀 Medplum Proxy Server is running on port ${PORT}`);
-  console.log(`📍 Visit: http://localhost:${PORT}`);
+  console.log(`Medplum Proxy Server is running on port ${PORT}`);
+  console.log(`Visit: http://localhost:${PORT}`);
 });
 
-// Graceful shutdown
 process.on('SIGTERM', (): void => {
   console.log('SIGTERM received. Shutting down gracefully...');
   process.exit(0);

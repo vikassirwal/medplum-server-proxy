@@ -20,22 +20,20 @@ const initiateAuthorization = async (req, res) => {
         });
         const redirectUrl = axiosResponse.request.res?.responseUrl || null;
         const responseData = {
-            status: axiosResponse.status,
-            statusText: axiosResponse.statusText,
+            success: true,
+            message: axiosResponse.statusText,
             redirectUrl,
+            timestamp: new Date().toISOString()
         };
         res.status(200).json(responseData);
     }
     catch (error) {
         const errorResponse = {
-            error: 'OAuth2 Request Failed',
+            success: false,
             message: `Failed to connect to OAuth2 server: ${error.message}`,
-            endpoint: '/auth/authorize',
-            method: 'GET',
             timestamp: new Date().toISOString()
         };
-        const errorWithDetails = errorResponse;
-        res.status(502).json(errorWithDetails);
+        res.status(502).json(errorResponse);
     }
 };
 exports.initiateAuthorization = initiateAuthorization;

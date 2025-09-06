@@ -3,13 +3,11 @@ export interface FhirResourceRequestDto {
     id?: string;
 }
 export interface FhirResourceResponseDto {
+    success: boolean;
+    data?: any;
     error?: string;
-    message: string;
-    endpoint?: string;
-    method?: string;
-    resourceType?: string;
-    resourceId?: string;
     timestamp: string;
+    message?: string;
 }
 export interface FhirResourceDto {
     resourceType: string;

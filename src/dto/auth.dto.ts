@@ -13,15 +13,10 @@ export interface AuthorizeRequestDto {
 }
 
 export interface AuthorizeResponseDto {
-  error?: string;
-  message: string;
-  endpoint: string;
-  method: string;
-  config?: {
-    clientId: string;
-    redirectUri: string;
-  };
-  timestamp: string;
+  success: boolean,
+  message: string,
+  timestamp: string,
+  redirectUrl?: string
 }
 
 export interface AuthConfigDto {

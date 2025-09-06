@@ -9,13 +9,13 @@ export interface Hl7ToFhirRequestDto {
 }
 
 export interface Hl7ToFhirResponseDto {
+  success: boolean;
   error?: string;
-  message: string;
-  endpoint: string;
-  method: string;
-  contentType?: string;
-  bodySize: number;
-  hl7MessageReceived?: boolean; // Flag to indicate if HL7 message was received
+  message?: string;
+  endpoint?: string;
+  method?: string;
+  bodySize?: number;
+  hl7MessageReceived?: boolean;
   conversionResults?: Array<{
     resourceType: string;
     success: boolean;
