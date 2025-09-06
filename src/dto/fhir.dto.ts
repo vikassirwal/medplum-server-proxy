@@ -1,6 +1,3 @@
-/**
- * Data Transfer Objects for FHIR endpoints
- */
 
 export interface FhirResourceRequestDto {
   resourceType: string;

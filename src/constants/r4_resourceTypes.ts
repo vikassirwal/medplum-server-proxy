@@ -1,8 +1,4 @@
-/**
- * FHIR R4 Resource Types
- * Complete list of all resource types defined in FHIR R4 specification
- * Reference: https://hl7.org/fhir/R4/resourcelist.html
- */
+
 
 export const FHIR_R4_RESOURCE_TYPES = [
   // Foundation

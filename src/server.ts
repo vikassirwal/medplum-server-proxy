@@ -14,25 +14,19 @@ const PORT: number = parseInt(process.env.PORT || '3010', 10);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Kicks off the authorization process
 app.get('/auth/authorize', initiateAuthorization);
 
-// Get FHIR resources
 app.get('/fhir/:version/:resourceType', getFhirResource);
 
-// Get FHIR resources by id
 app.get('/fhir/:version/:resourceType/:id', getFhirResource);
 
-// Restrict write and delete operations on FHIR resources
 app.post('/fhir/:version/:resourceType', handleRestrictedFhirMethod);
 app.put('/fhir/:version/:resourceType/:id', handleRestrictedFhirMethod);
 app.patch('/fhir/:version/:resourceType/:id', handleRestrictedFhirMethod);
 app.delete('/fhir/:version/:resourceType/:id', handleRestrictedFhirMethod);
 
-// exchange code for token
 app.post('/auth/getToken', getToken);
 
-// Convert HL7 v2 to FHIR and store in Medplum
 app.post('/convert/hl7-to-fhir', convertHl7ToFhir);
 
 

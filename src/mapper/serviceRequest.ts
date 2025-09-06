@@ -10,14 +10,14 @@ const createPatientIdentifier = (field: string): { value: string }[] | undefined
 
 const extractStatus = (field: string): 'draft' | 'active' | 'on-hold' | 'revoked' | 'completed' | 'entered-in-error' | 'unknown' => {
   const statusMap: { [key: string]: any } = {
-    'A': 'active',        // Some type of action is being taken
-    'CA': 'revoked',      // Cancel order request
-    'CM': 'completed',    // Order is completed
-    'DC': 'revoked',      // Discontinued
-    'ER': 'entered-in-error', // Error
-    'HD': 'on-hold',      // Hold order request
-    'IP': 'active',       // In process
-    'SC': 'active',        // In process scheduled
+    'A': 'active',       
+    'CA': 'revoked',     
+    'CM': 'completed',    
+    'DC': 'revoked',     
+    'ER': 'entered-in-error', 
+    'HD': 'on-hold',     
+    'IP': 'active',      
+    'SC': 'active',      
   };
 
   return statusMap[field] || 'active';

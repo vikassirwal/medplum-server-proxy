@@ -1,6 +1,3 @@
-/**
- * Data Transfer Objects for Callback endpoints
- */
 
 export interface CallbackRequestDto {
   code?: string;

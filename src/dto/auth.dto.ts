@@ -1,6 +1,3 @@
-/**
- * Data Transfer Objects for Authentication endpoints
- */
 
 export interface AuthorizeRequestDto {
   response_type?: string;

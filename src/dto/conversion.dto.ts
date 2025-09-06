@@ -1,6 +1,3 @@
-/**
- * Data Transfer Objects for Conversion endpoints
- */
 
 export interface Hl7ToFhirRequestDto {
   hl7Message: string;
