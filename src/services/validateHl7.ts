@@ -47,12 +47,11 @@ const validateMSHSegment = (mshSegment: string, errors: ValidationError[]): void
     return;
   }
 
-  // Check encoding characters (should be ^~\& or other valid combinations)
-  const validEncodingChars = ['^~\\&', '^~||']; // Add other valid sets if needed
-  if (!validEncodingChars.includes(fields[1])) {
+  // Check encoding characters (should be ^~\&)
+  if (fields[1] !== '^~\\&') {
     errors.push({
-      field: 'MSH.2',
-      message: `Invalid encoding characters: ${fields[1]}, expected one of: ${validEncodingChars.join(', ')}`,
+      field: 'MSH.1',
+      message: `Invalid encoding characters: ${fields[1]}, expected ^~\\&`,
     });
   }
 
@@ -62,7 +61,7 @@ const validateMSHSegment = (mshSegment: string, errors: ValidationError[]): void
   }
 };
 
-function validateSegmentFormat(segment: string, index: number, errors: ValidationError[]): void {
+const validateSegmentFormat = (segment: string, index: number, errors: ValidationError[]): void => {
   // Each segment should be at least 3 chars (segment ID)
   if (segment.length < 3) {
     errors.push({
@@ -88,4 +87,4 @@ function validateSegmentFormat(segment: string, index: number, errors: Validatio
       message: `Missing field separator after ${segmentId}`,
     });
   }
-}
+};

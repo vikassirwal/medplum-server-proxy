@@ -37,7 +37,8 @@ const getFhirResource: ControllerFunction = async (req: Request, res: Response):
     } else {
       const errorResponse: FhirResourceResponseDto = {
         success: false,
-        error: result.error?.issue?.[0]?.diagnostics || result.error?.message || `Failed to retrieve FHIR resource: ${result.error}`,
+        error: 'Failed to retrieve FHIR resource',
+        message: result.error,
         timestamp: new Date().toISOString(),
       };
 
@@ -46,16 +47,11 @@ const getFhirResource: ControllerFunction = async (req: Request, res: Response):
 
   } catch (error: any) {
     let statusCode = 500;
-    let errorMessage = `Failed to retrieve FHIR resource: ${error.message}`;
-
-    if (error.response) {
-      statusCode = error.response.status;
-      errorMessage = error.response.data?.issue?.[0]?.diagnostics || error.response.data?.message || `FHIR API error: ${error.response.statusText}`;
-    }
-
+    
     const errorResponse: FhirResourceResponseDto = {
       success: false,
-      error: `FHIR Request Failed: ${errorMessage}`,
+      error: `FHIR Request Failed`,
+      message: error.message,
       timestamp: new Date().toISOString(),
     };
 

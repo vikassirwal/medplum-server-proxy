@@ -26,6 +26,7 @@ const loadHl7ToFhir = async (hl7Message: string, resourceTypeList: string[], con
       if (resource) {
         // Check if resource already exists
         let existsCheck = null;
+
         if (resource.id) {
           const searchParams = {
             identifier: resource.id,
@@ -33,7 +34,7 @@ const loadHl7ToFhir = async (hl7Message: string, resourceTypeList: string[], con
           existsCheck = await checkFhirResourceExists(resourceType, searchParams, bearerToken);
         }
 
-        if(existsCheck.exists) {
+        if(existsCheck?.exists) {
           conversionResults.push({
             resourceType,
             success: true,
@@ -69,7 +70,7 @@ const convertHl7ToFhir: ControllerFunction = async (req: Request, res: Response)
     if(!bearerToken) {
       res.status(401).json({
         success: false,
-        error: 'Missing Authorization.Authorization is required in the request headers.',
+        error: 'Missing Authorization. Authorization is required in the request headers.',
         timestamp: new Date().toISOString(),
       });
       return;
@@ -104,7 +105,7 @@ const convertHl7ToFhir: ControllerFunction = async (req: Request, res: Response)
     // validate hl7 message
     const hl7Message: string = typeof message === 'string' ? message : JSON.stringify(message);
     const errors = validateHL7Message(hl7Message);
-    console.log('errors', errors);
+
     if(errors.length > 0) {
       res.status(400).json({ 
         success: false,
@@ -122,7 +123,7 @@ const convertHl7ToFhir: ControllerFunction = async (req: Request, res: Response)
     // Success response with conversion results
     const response: Hl7ToFhirResponseDto = {
       success: true,
-      message: 'HL7 v2 message converted and posted to FHIR API successfully.',
+      message: 'FHIR insertion requested - see results below',
       conversionResults: conversionResults,
       timestamp: new Date().toISOString(),
     };

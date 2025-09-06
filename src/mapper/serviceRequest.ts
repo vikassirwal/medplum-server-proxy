@@ -53,19 +53,6 @@ const extractRequester = (field: string): { reference: string } | undefined => {
   return providerId ? { reference: `Practitioner/${providerId}` } : undefined;
 };
 
-const extractPriority = (field: string): 'routine' | 'urgent' | 'asap' | 'stat' | undefined => {
-  const priorityMap: { [key: string]: any } = {
-    'S': 'stat',
-    'A': 'asap',
-    'R': 'routine',
-    'P': 'routine',
-    'C': 'routine',
-    'T': 'routine',
-  };
-
-  return priorityMap[field] || 'routine';
-};
-
 const extractPatientId = (hl7Message: string): string => {
   const lines = hl7Message.split('\n');
   const pidLine = lines.find(line => line.startsWith('PID'));
@@ -86,8 +73,7 @@ const extractPatientId = (hl7Message: string): string => {
 
 export const HL7ToServiceRequestConverter = (hl7Message: string): ServiceRequestResourceDto => {
   const lines = hl7Message.split('\n');
-  const obrLine = lines.find(line => line.startsWith('OBR')) ||
-                    lines.find(line => line.startsWith('ORC'));
+  const obrLine = lines.find(line => line.startsWith('OBR')) || lines.find(line => line.startsWith('ORC'));
 
   // Extract patient ID from the HL7 message
   const patientId = extractPatientId(hl7Message);
@@ -107,8 +93,7 @@ export const HL7ToServiceRequestConverter = (hl7Message: string): ServiceRequest
     category: extractCategory(),
     code: extractCode(fields[4]),
     subject: { reference: `Patient/${patientId}` },
-    requester: extractRequester(fields[16]),
-    priority: extractPriority(fields[5]),
+    requester: extractRequester(fields[12]),
   };
 
   return serviceRequest;

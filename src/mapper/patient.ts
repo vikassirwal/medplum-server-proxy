@@ -70,7 +70,6 @@ export const HL7ToPatientConverter = (hl7Message: string): PatientResourceDto =>
   }
 
   const fields = pidLine.split('|');
-
   const patient: PatientResourceDto = {
     resourceType: 'Patient',
     id: extractId(fields[3]),

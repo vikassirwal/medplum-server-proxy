@@ -9,12 +9,7 @@ const createCoverageIdentifier = (field: string): { value: string }[] | undefine
   return [{ value: field?.split('^')[0] }];
 };
 
-const extractSubscriber = (nameField: string, relationField: string): { reference: string } | undefined => {
-  // If relationship is 'self', subscriber is the patient
-  if (relationField === '18' || relationField === 'SEL') {
-    return undefined; // Same as beneficiary
-  }
-
+const extractSubscriber = (nameField: string): { reference: string } | undefined => {
   return nameField ? { reference: `RelatedPerson/${nameField.split('^')[0]}` } : undefined;
 };
 
@@ -130,19 +125,18 @@ export const HL7ToCoverageConverter = (hl7Message: string): CoverageResourceDto 
   // Extract patient ID from the HL7 message
   const patientId = extractPatientId(hl7Message);
   const fields = in1Line.split('|');
-
   const coverage: CoverageResourceDto = {
     resourceType: 'Coverage',
     id: extractId(fields[2]),
     identifier: createCoverageIdentifier(fields[2]),
     status: 'active',
     beneficiary: { reference: `Patient/${patientId}` },
-    subscriber: extractSubscriber(fields[16], fields[17]),
-    subscriberId: extractSubscriberId(fields[36]),
-    relationship: extractRelationship(fields[17]),
+    subscriber: extractSubscriber(fields[16]),
+    subscriberId: extractSubscriberId(fields[16]),
+    relationship: extractRelationship(fields[16]),
     period: extractPeriod(fields[12], fields[13]),
     payor: extractPayor(fields[3], fields[4]),
-    class: extractClass(fields[35]),
+    class: extractClass(fields[8]),
   };
 
   return coverage;

@@ -90,7 +90,7 @@ export const checkFhirResourceExists = async (resourceType: string, searchParams
       success: true,
       data: response.data,
       status: response.status,
-      exists: response.data?.total > 0,
+      exists: response.data?.entry?.length > 0,
       total: response.data?.total || 0,
     };
 
